@@ -1,0 +1,23 @@
+<div class="card">
+    <div class="card__image">
+        <img class="card__image__img" [src]="character.image">
+    </div>
+    <div class="card__info">
+        <div class="card__info__name">
+            <p>{{character.name}}</p>
+        </div>
+        <div class="card__info__otherinfo">
+            <p class="card__info__gender">{{character.gender || '-'}}</p>
+            <p class="card__info__origin">{{character.origin.name || '-'}}</p>
+            <p class="card__info__type">{{character.type || '-'}}</p>
+        </div>
+    </div>
+    <div class="card__status">
+        <div class="card__status__chip_alive" *ngIf="character.status == 'Alive'">
+            {{character.status}}
+        </div>
+        <div class="card__status__chip_dead" *ngIf="character.status == 'Dead'">
+            {{character.status}}
+        </div>
+    </div>
+</div>

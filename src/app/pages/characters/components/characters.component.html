@@ -1,0 +1,19 @@
+<app-header></app-header>
+
+<div class="search">
+    <input placeholder="Buscar" class="search__input" [formControl]="formControl">
+</div>
+
+<div class="characters">
+    <app-card *ngFor="let character of characterList" [character]="character"></app-card>
+</div>
+
+
+<div class="pagination">
+    <button class="pagination__button prev" (click)="prevNextPage(1)">
+        Anterior
+    </button>
+    <button class="pagination__button next" (click)="prevNextPage(2)">
+        Siguiente
+    </button>
+</div>
