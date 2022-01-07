@@ -11,11 +11,8 @@ import { CharacterService } from "./characters.service";
 })
 export class CharactersComponent implements OnInit {
     currentUrl = 'https://rickandmortyapi.com/api/character';
-    nextURL = '';
-    prevURL = '';
     characterList:ICharacter[];
     tempCharacterList:ICharacter[];
-    formControl = new FormControl();
 
     constructor(
         private _characterService: CharacterService
@@ -25,40 +22,17 @@ export class CharactersComponent implements OnInit {
 
     ngOnInit() {
         this.handlerGetCharacters(this.currentUrl);
-        this.handlerFilterCharacters();
     }
 
     handlerGetCharacters(url) {
         this._characterService.getCharactersByPage(url).subscribe(
             result => {
+                console.log(result);
                 const characterCommand:ICharacterCommand = result;
-                this.nextURL           = characterCommand.info.next;
-                this.prevURL           = characterCommand.info.prev;
                 this.characterList     = characterCommand.results;
-                this.tempCharacterList = characterCommand.results;this.characterList = this.tempCharacterList.filter(element => (element.name.toLowerCase()).includes((this.formControl.value || '').toLowerCase()));
+                this.tempCharacterList = characterCommand.results;
             }
         );
     }
 
-    prevNextPage(direction:number) {
-        if(direction == PREV_DIRECTION && this.prevURL != '') {
-            this.handlerGetCharacters(this.prevURL);
-        } else if(direction == NEXT_DIRECTION && this.nextURL != '') {
-            this.handlerGetCharacters(this.nextURL);
-        }
-    }
-
-    handlerFilterCharacters() {
-        this.formControl.valueChanges
-            .pipe(
-                debounceTime(400)
-            ).subscribe(value => {
-                console.log(value);
-                this.characterList = this.tempCharacterList.filter(element => (element.name.toLowerCase()).includes(value.toLowerCase()));
-            });
-    }
-
 }
-
-export const PREV_DIRECTION = 1;
-export const NEXT_DIRECTION = 2;
